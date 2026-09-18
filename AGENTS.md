@@ -97,6 +97,17 @@ npm run import:yuque -- \
   --tags "标签1,标签2"
 ```
 
+Concrete example:
+
+```bash
+npm run import:yuque -- \
+  --file "/Users/coderman/Downloads/KVPlat平台介绍.md" \
+  --title "KVPlat 平台介绍" \
+  --slug "kvplat-platform-intro" \
+  --description "介绍基于元数据配置的业务 KV 配置平台，包括多租户、多级缓存、配置变更审核和主要模块设计。" \
+  --tags "KVPlat,低代码,Spring Boot,Vue,多租户"
+```
+
 Then run:
 
 ```bash
