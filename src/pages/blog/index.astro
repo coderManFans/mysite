@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date);
+
+const getPostPath = (id: string) =>
+  `/blog/${id.replace(/\/index\.(md|mdx)$/, '').replace(/\.(md|mdx)$/, '')}/`;
+---
+<BaseLayout title="Blog" description="CODERMAN 的技术博客和开发笔记。">
+  <section class="page-heading">
+    <p class="eyebrow">Blog</p>
+    <h1>技术博客</h1>
+    <p>记录软件开发、AI 工具链和个人项目实践。</p>
+  </section>
+
+  <section class="post-list" aria-label="博客文章列表">
+    {posts.map((post) => (
+      <article class="post-card">
+        <div class="post-meta">
+          <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          {post.data.tags.length > 0 && <span>{post.data.tags.join(' / ')}</span>}
+        </div>
+        <h2><a href={getPostPath(post.id)}>{post.data.title}</a></h2>
+        {post.data.description && <p>{post.data.description}</p>}
+      </article>
+    ))}
+  </section>
+</BaseLayout>
