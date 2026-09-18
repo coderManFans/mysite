@@ -27,8 +27,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p class="eyebrow">Contact</p>
       <h2 id="contact-title">保持联系</h2>
     </div>
-    <div class="text-block">
-      <p>可以在后续补充 GitHub、邮箱、社交媒体或简历链接。</p>
+    <div class="contact-panel">
+      <div class="contact-links" aria-label="联系方式列表">
+        <a href="mailto:2217011466@qq.com">
+          <span>邮箱</span>
+          <strong>2217011466@qq.com</strong>
+        </a>
+        <a href="https://github.com/coderManFans" target="_blank" rel="noreferrer">
+          <span>GitHub</span>
+          <strong>github.com/coderManFans</strong>
+        </a>
+        <a href="https://gitee.com/codergit.com" target="_blank" rel="noreferrer">
+          <span>Gitee</span>
+          <strong>gitee.com/codergit.com</strong>
+        </a>
+      </div>
+      <figure class="wechat-card">
+        <img src="/images/wechat-official-account.jpg" alt="微信公众号神帅的技术圈二维码" width="220" height="220" loading="lazy" />
+        <figcaption>
+          <span>微信公众号</span>
+          <strong>神帅的技术圈</strong>
+        </figcaption>
+      </figure>
     </div>
   </section>
 </BaseLayout>

@@ -151,6 +151,64 @@ h2 {
   font-size: 1.08rem;
 }
 
+.contact-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 28px;
+  align-items: start;
+}
+
+.contact-links {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-links a {
+  display: grid;
+  gap: 4px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+
+.contact-links span,
+.wechat-card span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.contact-links strong,
+.wechat-card strong {
+  color: var(--text);
+  font-size: 1.02rem;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.wechat-card {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.wechat-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.wechat-card figcaption {
+  display: grid;
+  gap: 2px;
+  margin-top: 12px;
+}
+
 .page-heading {
   padding: 72px 0 40px;
 }
@@ -284,5 +342,13 @@ h2 {
     grid-template-columns: 1fr;
     gap: 18px;
     padding: 52px 0;
+  }
+
+  .contact-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .wechat-card {
+    width: min(220px, 100%);
   }
 }
