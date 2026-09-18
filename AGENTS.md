@@ -84,6 +84,29 @@ Post URLs are generated from file paths:
 - `src/content/blog/hello-astro.md` -> `/blog/hello-astro/`
 - `src/content/blog/my-post/index.md` -> `/blog/my-post/`
 
+## Markdown Migration Workflow
+
+For Yuque-exported Markdown or similar exported articles, use the project-local importer instead of copying files by hand:
+
+```bash
+npm run import:yuque -- \
+  --file "/path/to/article.md" \
+  --title "文章标题" \
+  --slug "article-slug" \
+  --description "文章摘要" \
+  --tags "标签1,标签2"
+```
+
+Then run:
+
+```bash
+npm run build
+```
+
+Detailed workflow: `docs/blog-migration.md`.
+
+The importer copies the Markdown into `src/content/blog/`, downloads remote images into `public/images/blog/<slug>/`, rewrites image links to local paths, removes Yuque OCR HTML comments, and adds Astro frontmatter.
+
 ## Markdown Images
 
 For the simplest and most stable setup, put blog images in `public/images/blog/` and reference them with absolute site paths:
@@ -199,7 +222,8 @@ DNS/domain notes:
 - Keep shared styling in `public/styles.css` unless a component-specific style is clearly better.
 - Do not store secrets, API keys, DNS tokens, or Cloudflare credentials in this repository.
 - When adding assets, use clear names such as `public/images/blog/cloudflare-dns-flow.png`.
-- Run `npm run build` after changing routes, layouts, content schema, RSS, or Markdown examples.
+- Use `npm run import:yuque` for Yuque-exported Markdown migrations.
+- Run `npm run build` after changing routes, layouts, content schema, RSS, imported Markdown, or Markdown examples.
 - Verify visual changes in a browser when possible.
 
 ## Suggested Next Improvements

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "import:yuque": "node scripts/import-yuque-md.mjs"
   },
 
   "packageManager": "npm@11.6.2",
