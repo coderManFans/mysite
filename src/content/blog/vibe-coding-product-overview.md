@@ -3,6 +3,7 @@ title: "Vibe Coding 产品说明"
 description: "介绍三个通过 Vibe Coding 构建的项目：开发测试平台、题经知识体系平台，以及基于元数据配置的 KV 业务模型平台。"
 pubDate: 2026-09-18
 tags: ["Vibe Coding", "AI Agent", "RAG", "开发测试平台", "低代码"]
+category: "vibe-coding-projects"
 draft: false
 ---
 大家好，最近一直在做一些vibe Coding的东西，也在尝试使用各种agent,skill还有一些RAG模型来支撑产品业务，目前做了三个系统，基本都形成1.0.0版本的demo，在做的过程中也给了我很多惊喜和成功的喜悦。比如之前是主要做后端技术开发，只要管好自己这一块就行，现在我借着AI的能力可以独立搭建相对复杂的前端页面，类似于企业SAAS后台或者B2B的后台管理页面。既然页面功能也可以实现了，那么瓶颈对我来说可能在于交付质量，迭代频率，产品功能设计方面的了。

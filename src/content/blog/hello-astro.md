@@ -3,6 +3,7 @@ title: "迁移到 Astro"
 description: "记录个人网站从纯 HTML 迁移到 Astro 和 Markdown 博客的第一步。"
 pubDate: 2024-01-15
 tags: ["Astro", "Blog"]
+category: "vibe-coding-projects"
 draft: false
 ---
 

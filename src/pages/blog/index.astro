@@ -1,10 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { blogCategories, getBlogCategoryLabel } from '../../lib/blogCategories';
 
-const posts = (await getCollection('blog'))
+const activeCategory = 'all';
+
+const allPosts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const categoryCounts = new Map<string, number>();
+for (const post of allPosts) {
+  categoryCounts.set(post.data.category, (categoryCounts.get(post.data.category) ?? 0) + 1);
+}
+
+const posts = activeCategory === 'all'
+  ? allPosts
+  : allPosts.filter((post) => post.data.category === activeCategory);
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date);
@@ -19,11 +31,33 @@ const getPostPath = (id: string) =>
     <p>记录软件开发、AI 工具链和个人项目实践。</p>
   </section>
 
+  <section class="category-filter" aria-label="博客分类筛选">
+    <a class:list={["category-chip", { active: activeCategory === 'all' }]} href="/blog/">
+      全部
+      <span>{allPosts.length}</span>
+    </a>
+    {blogCategories.map((category) => (
+      <a
+        class:list={["category-chip", { active: activeCategory === category.slug }]}
+        href={`/blog/category/${category.slug}/`}
+        title={category.description}
+      >
+        {category.label}
+        <span>{categoryCounts.get(category.slug) ?? 0}</span>
+      </a>
+    ))}
+  </section>
+
+  {posts.length === 0 && (
+    <p class="empty-state">当前分类还没有文章，后续会继续补充。</p>
+  )}
+
   <section class="post-list" aria-label="博客文章列表">
     {posts.map((post) => (
       <article class="post-card">
         <div class="post-meta">
           <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          <span>{getBlogCategoryLabel(post.data.category)}</span>
           {post.data.tags.length > 0 && <span>{post.data.tags.join(' / ')}</span>}
         </div>
         <h2><a href={getPostPath(post.id)}>{post.data.title}</a></h2>

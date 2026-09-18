@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {
+  blogCategories,
+  getBlogCategoryLabel
+} from '../../../lib/blogCategories';
+
+export function getStaticPaths() {
+  return blogCategories.map((category) => ({
+    params: { category: category.slug },
+    props: { category }
+  }));
+}
+
+const { category } = Astro.props;
+const posts = (await getCollection('blog', ({ data }) =>
+  !data.draft && data.category === category.slug
+)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date);
+
+const getPostPath = (id: string) =>
+  `/blog/${id.replace(/\/index\.(md|mdx)$/, '').replace(/\.(md|mdx)$/, '')}/`;
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft));
+const categoryCounts = new Map<string, number>();
+for (const post of allPosts) {
+  categoryCounts.set(post.data.category, (categoryCounts.get(post.data.category) ?? 0) + 1);
+}
+---
+<BaseLayout title={`${category.label} | Blog`} description={category.description}>
+  <section class="page-heading">
+    <p class="eyebrow">Blog / Category</p>
+    <h1>{category.label}</h1>
+    <p>{category.description}</p>
+  </section>
+
+  <section class="category-filter" aria-label="博客分类筛选">
+    <a class="category-chip" href="/blog/">全部 <span>{allPosts.length}</span></a>
+    {blogCategories.map((item) => (
+      <a
+        class:list={["category-chip", { active: item.slug === category.slug }]}
+        href={`/blog/category/${item.slug}/`}
+        title={item.description}
+      >
+        {item.label}
+        <span>{categoryCounts.get(item.slug) ?? 0}</span>
+      </a>
+    ))}
+  </section>
+
+  <section class="post-list" aria-label={`${category.label}文章列表`}>
+    {posts.map((post) => (
+      <article class="post-card">
+        <div class="post-meta">
+          <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          <span>{getBlogCategoryLabel(post.data.category)}</span>
+          {post.data.tags.length > 0 && <span>{post.data.tags.join(' / ')}</span>}
+        </div>
+        <h2><a href={getPostPath(post.id)}>{post.data.title}</a></h2>
+        {post.data.description && <p>{post.data.description}</p>}
+      </article>
+    ))}
+  </section>
+</BaseLayout>

@@ -12,7 +12,8 @@ npm run import:yuque -- \
   --title "文章标题" \
   --slug "article-slug" \
   --description "文章摘要" \
-  --tags "标签1,标签2"
+  --tags "标签1,标签2" \
+  --category "vibe-coding-projects"
 ```
 
 Real example already used for the KVPlat article:
@@ -59,6 +60,7 @@ Recommended:
 - `--slug` - URL slug. Example: `kvplat-platform-intro` becomes `/blog/kvplat-platform-intro/`.
 - `--description` - article summary for SEO, RSS, and the blog list.
 - `--tags` - comma-separated tag list.
+- `--category` - category slug: `distributed-microservices`, `ddd-domain-modeling`, or `vibe-coding-projects`.
 
 Optional:
 

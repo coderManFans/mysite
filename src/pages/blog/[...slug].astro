@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getBlogCategoryLabel } from '../../lib/blogCategories';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -25,11 +26,10 @@ const formatDate = (date: Date) =>
       <p class="eyebrow">{formatDate(post.data.pubDate)}</p>
       <h1>{post.data.title}</h1>
       {post.data.description && <p>{post.data.description}</p>}
-      {post.data.tags.length > 0 && (
-        <div class="tag-list" aria-label="文章标签">
-          {post.data.tags.map((tag) => <span>{tag}</span>)}
-        </div>
-      )}
+      <div class="tag-list" aria-label="文章分类和标签">
+        <span class="category-label">{getBlogCategoryLabel(post.data.category)}</span>
+        {post.data.tags.map((tag) => <span>{tag}</span>)}
+      </div>
     </header>
     <div class="prose">
       <Content />

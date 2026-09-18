@@ -18,6 +18,16 @@ const slug = args.slug || slugify(title);
 const description = args.description || `介绍 ${title} 的技术实践和项目设计。`;
 const pubDate = args.date || new Date().toISOString().slice(0, 10);
 const tags = parseTags(args.tags);
+const category = args.category || 'vibe-coding-projects';
+const validCategories = new Set([
+  'distributed-microservices',
+  'ddd-domain-modeling',
+  'vibe-coding-projects'
+]);
+
+if (!validCategories.has(category)) {
+  throw new Error(`Unknown category: ${category}`);
+}
 
 if (!existsSync(sourceFile)) {
   throw new Error(`Source Markdown file does not exist: ${sourceFile}`);
@@ -55,7 +65,7 @@ for (const [index, imageUrl] of imageUrls.entries()) {
 markdown = addDefaultImageAlt(markdown, title);
 markdown = normalizeBlankLines(markdown);
 
-const frontmatter = buildFrontmatter({ title, description, pubDate, tags });
+const frontmatter = buildFrontmatter({ title, description, pubDate, tags, category });
 await writeFile(targetMarkdown, `${frontmatter}\n${markdown.trim()}\n`, 'utf8');
 
 console.log(`Imported post: src/content/blog/${slug}.md`);
@@ -173,9 +183,9 @@ function normalizeBlankLines(value) {
   return value.replace(/\n{4,}/g, '\n\n\n');
 }
 
-function buildFrontmatter({ title: titleValue, description: descriptionValue, pubDate: dateValue, tags: tagValues }) {
+function buildFrontmatter({ title: titleValue, description: descriptionValue, pubDate: dateValue, tags: tagValues, category: categoryValue }) {
   const tagsValue = `[${tagValues.map((tag) => JSON.stringify(tag)).join(', ')}]`;
-  return `---\ntitle: ${JSON.stringify(titleValue)}\ndescription: ${JSON.stringify(descriptionValue)}\npubDate: ${dateValue}\ntags: ${tagsValue}\ndraft: false\n---`;
+  return `---\ntitle: ${JSON.stringify(titleValue)}\ndescription: ${JSON.stringify(descriptionValue)}\npubDate: ${dateValue}\ntags: ${tagsValue}\ncategory: ${JSON.stringify(categoryValue)}\ndraft: false\n---`;
 }
 
 function exitWithUsage(message) {

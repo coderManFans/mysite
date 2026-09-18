@@ -3,6 +3,7 @@ title: "KVPlat 平台介绍"
 description: "介绍基于元数据配置的业务 KV 配置平台，包括多租户、多级缓存、配置变更审核和主要模块设计。"
 pubDate: 2026-09-18
 tags: ["KVPlat", "低代码", "Spring Boot", "Vue", "多租户"]
+category: "ddd-domain-modeling"
 draft: false
 ---
 

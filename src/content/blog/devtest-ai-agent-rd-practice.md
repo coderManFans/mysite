@@ -3,6 +3,7 @@ title: "开发测试平台研发端 AI Agent 落地实践"
 description: "介绍云蝶AI产研平台研发端 AI Agent 的落地实践，包括研发流程、Agent Skills、技术方案生成、质量门禁和实践问题处理。"
 pubDate: 2026-09-18
 tags: ["AI Agent", "开发测试平台", "云蝶AI产研平台", "研发流程", "Skills"]
+category: "distributed-microservices"
 draft: false
 ---
 
