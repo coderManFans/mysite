@@ -50,7 +50,7 @@ npm run preview
 
 ## Blog Content
 
-Add Markdown posts under `src/content/blog/`.
+Add Markdown posts under `src/content/blog/zh/` for Chinese posts and `src/content/blog/en/` for English translations.
 
 Recommended frontmatter:
 
@@ -61,7 +61,8 @@ description: "文章摘要，用于列表页、SEO 和 RSS。"
 pubDate: 2024-01-15
 updatedDate: 2024-01-20
 tags: ["Astro", "AI", "开发"]
-draft: false
+lang: "zh"
+translationKey: "article-slug"
 ---
 ```
 
@@ -76,13 +77,17 @@ Optional fields:
 - `updatedDate`
 - `tags`
 - `draft`
+- `category`
+- `lang` - `zh` or `en`; defaults to `zh`.
+- `translationKey` - stable key for matching translations; usually the slug.
 
 Draft posts with `draft: true` are excluded from the blog list, detail pages, and RSS feed.
 
 Post URLs are generated from file paths:
 
-- `src/content/blog/hello-astro.md` -> `/blog/hello-astro/`
-- `src/content/blog/my-post/index.md` -> `/blog/my-post/`
+- `src/content/blog/zh/hello-astro.md` -> `/blog/hello-astro/`
+- `src/content/blog/zh/my-post/index.md` -> `/blog/my-post/`
+- `src/content/blog/en/my-post.md` -> `/en/blog/my-post/`
 
 ## Markdown Migration Workflow
 
@@ -116,7 +121,23 @@ npm run build
 
 Detailed workflow: `docs/blog-migration.md`.
 
-The importer copies the Markdown into `src/content/blog/`, downloads remote images into `public/images/blog/<slug>/`, rewrites image links to local paths, removes Yuque OCR HTML comments, and adds Astro frontmatter.
+## Blog Translation Workflow
+
+Generate English Markdown drafts from existing Chinese posts with:
+
+```bash
+npm run translate:blog
+```
+
+Translate a single post:
+
+```bash
+npm run translate:blog -- --slug kvplat-platform-intro
+```
+
+The translator reads `src/content/blog/zh/` and writes `src/content/blog/en/`. Existing English files are skipped unless `--force` is passed. Always manually review AI-generated translations and run `npm run build` before publishing. Detailed workflow: `docs/blog-translation.md`.
+
+The importer copies the Markdown into `src/content/blog/<lang>/`, downloads remote images into `public/images/blog/<slug>/`, rewrites image links to local paths, removes Yuque OCR HTML comments, and adds Astro frontmatter.
 
 ## Markdown Images
 

@@ -5,6 +5,8 @@ pubDate: 2024-01-15
 tags: ["Astro", "Blog"]
 category: "vibe-coding-projects"
 draft: false
+lang: "zh"
+translationKey: "hello-astro"
 ---
 
 这里是一篇示例文章。之后可以把已有 Markdown 博客放到 `src/content/blog/` 目录下。

@@ -5,6 +5,8 @@ pubDate: 2026-07-12
 tags: ["RAG", "知识检索", "Vibe Coding", "Java", "Python", "向量数据库", "AI"]
 category: "vibe-coding-projects"
 draft: false
+lang: "zh"
+translationKey: "knowledge-rag-system"
 ---
 大家好，这篇博客主要介绍下我最近开发的vibe coding项目，题经项目，开篇先来张图镇楼。
 

@@ -5,6 +5,8 @@ pubDate: 2026-07-25
 tags: ["GPT-5.5", "AI Agent", "Skills", "Vibe Coding", "VIBE-TODOLOG", "项目管理"]
 category: "vibe-coding-projects"
 draft: false
+lang: "zh"
+translationKey: "create-practical-skill-with-gpt-5-5"
 ---
 大家好，最近在做几个Vibe Coding项目，之前总结了几个Skills文件，但是比较简单，然后想结合业务场景做丰富点，按照skills的标准做一下。这不最近被一些代码版本需求或者todo事项搞的有点麻烦，就是大脑里还需要时刻记住这个项目没做哪些，那个项目的版本里差了哪些等等。
 

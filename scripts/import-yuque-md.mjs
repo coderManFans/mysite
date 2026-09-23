@@ -18,12 +18,18 @@ const slug = args.slug || slugify(title);
 const description = args.description || `介绍 ${title} 的技术实践和项目设计。`;
 const pubDate = args.date || new Date().toISOString().slice(0, 10);
 const tags = parseTags(args.tags);
+const lang = args.lang || 'zh';
 const category = args.category || 'vibe-coding-projects';
+const validLangs = new Set(['zh', 'en']);
 const validCategories = new Set([
   'distributed-microservices',
   'ddd-domain-modeling',
   'vibe-coding-projects'
 ]);
+
+if (!validLangs.has(lang)) {
+  throw new Error(`Unknown language: ${lang}. Use zh or en.`);
+}
 
 if (!validCategories.has(category)) {
   throw new Error(`Unknown category: ${category}`);
@@ -37,7 +43,7 @@ if (!slug) {
   throw new Error('Could not generate a valid slug. Pass --slug explicitly.');
 }
 
-const targetMarkdown = path.join(root, 'src/content/blog', `${slug}.md`);
+const targetMarkdown = path.join(root, 'src/content/blog', lang, `${slug}.md`);
 const imageDir = path.join(root, 'public/images/blog', slug);
 const imagePublicBase = `/images/blog/${slug}`;
 
@@ -65,13 +71,21 @@ for (const [index, imageUrl] of imageUrls.entries()) {
 markdown = addDefaultImageAlt(markdown, title);
 markdown = normalizeBlankLines(markdown);
 
-const frontmatter = buildFrontmatter({ title, description, pubDate, tags, category });
+const frontmatter = buildFrontmatter({
+  title,
+  description,
+  pubDate,
+  tags,
+  category,
+  lang,
+  translationKey: args.translationKey || slug
+});
 await writeFile(targetMarkdown, `${frontmatter}\n${markdown.trim()}\n`, 'utf8');
 
-console.log(`Imported post: src/content/blog/${slug}.md`);
+console.log(`Imported post: src/content/blog/${lang}/${slug}.md`);
 console.log(`Image directory: public/images/blog/${slug}/`);
 console.log(`Downloaded images: ${imageUrls.length}`);
-console.log(`URL path: /blog/${slug}/`);
+console.log(`URL path: ${lang === 'zh' ? `/blog/${slug}/` : `/${lang}/blog/${slug}/`}`);
 
 function parseArgs(values) {
   const result = {};
@@ -183,13 +197,21 @@ function normalizeBlankLines(value) {
   return value.replace(/\n{4,}/g, '\n\n\n');
 }
 
-function buildFrontmatter({ title: titleValue, description: descriptionValue, pubDate: dateValue, tags: tagValues, category: categoryValue }) {
+function buildFrontmatter({
+  title: titleValue,
+  description: descriptionValue,
+  pubDate: dateValue,
+  tags: tagValues,
+  category: categoryValue,
+  lang: langValue,
+  translationKey
+}) {
   const tagsValue = `[${tagValues.map((tag) => JSON.stringify(tag)).join(', ')}]`;
-  return `---\ntitle: ${JSON.stringify(titleValue)}\ndescription: ${JSON.stringify(descriptionValue)}\npubDate: ${dateValue}\ntags: ${tagsValue}\ncategory: ${JSON.stringify(categoryValue)}\ndraft: false\n---`;
+  return `---\ntitle: ${JSON.stringify(titleValue)}\ndescription: ${JSON.stringify(descriptionValue)}\npubDate: ${dateValue}\ntags: ${tagsValue}\ncategory: ${JSON.stringify(categoryValue)}\ndraft: false\nlang: ${JSON.stringify(langValue)}\ntranslationKey: ${JSON.stringify(translationKey)}\n---`;
 }
 
 function exitWithUsage(message) {
   console.error(message);
-  console.error(`\nUsage:\n  npm run import:yuque -- --file /path/to/post.md --title "文章标题" --slug article-slug --tags "标签1,标签2"\n`);
+  console.error(`\nUsage:\n  npm run import:yuque -- --file /path/to/post.md --title "文章标题" --slug article-slug --tags "标签1,标签2" --lang zh\n`);
   process.exit(1);
 }

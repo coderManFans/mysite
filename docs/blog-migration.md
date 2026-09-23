@@ -45,8 +45,8 @@ npm run build
 - Stores images in `public/images/blog/<slug>/`.
 - Rewrites image links to `/images/blog/<slug>/image-N.ext`.
 - Adds default image alt text when missing.
-- Writes the final post to `src/content/blog/<slug>.md`.
-- Adds Astro-compatible frontmatter.
+- Writes the final post to `src/content/blog/<lang>/<slug>.md`.
+- Adds Astro-compatible frontmatter, including `lang` and `translationKey`.
 
 ## Arguments
 
@@ -61,6 +61,8 @@ Recommended:
 - `--description` - article summary for SEO, RSS, and the blog list.
 - `--tags` - comma-separated tag list.
 - `--category` - category slug: `distributed-microservices`, `ddd-domain-modeling`, or `vibe-coding-projects`.
+- `--lang` - post language: `zh` or `en`. Defaults to `zh`.
+- `--translationKey` - stable key used to connect translations. Defaults to the slug.
 
 Optional:
 
@@ -84,7 +86,7 @@ After importing, review the generated Markdown file:
 Use a focused commit per imported article:
 
 ```bash
-git add src/content/blog/<slug>.md public/images/blog/<slug>
+git add src/content/blog/<lang>/<slug>.md public/images/blog/<slug>
 git commit -m "Add <title> blog post"
 git push
 ```

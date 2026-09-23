@@ -2,13 +2,29 @@
 interface Props {
   title: string;
   description?: string;
+  lang?: 'zh' | 'en';
+  alternateUrl?: string;
 }
 
-const { title, description = 'CODERMAN personal website and technical blog.' } = Astro.props;
+import { getBlogIndexPath, getHomePath, getHtmlLang } from '../lib/blogI18n';
+
+const {
+  title,
+  description = 'CODERMAN personal website and technical blog.',
+  lang = 'zh',
+  alternateUrl
+} = Astro.props;
 const pageTitle = title === 'CODERMAN' ? title : `${title} | CODERMAN`;
+const isEnglish = lang === 'en';
+const homePath = getHomePath(lang);
+const blogPath = getBlogIndexPath(lang);
+const contactPath = `${homePath}#contact`;
+const defaultAlternateUrl = isEnglish ? Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/' : `/en${Astro.url.pathname === '/' ? '' : Astro.url.pathname}`;
+const languageSwitchUrl = alternateUrl ?? defaultAlternateUrl;
+const languageSwitchLabel = isEnglish ? '中文' : 'English';
 ---
 <!doctype html>
-<html lang="zh-CN">
+<html lang={getHtmlLang(lang)}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,10 +36,11 @@ const pageTitle = title === 'CODERMAN' ? title : `${title} | CODERMAN`;
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/">CODERMAN</a>
-      <nav aria-label="主导航">
-        <a href="/blog/">Blog</a>
-        <a href="/#contact">Contact</a>
+      <a class="brand" href={homePath}>CODERMAN</a>
+      <nav aria-label={isEnglish ? 'Main navigation' : '主导航'}>
+        <a href={blogPath}>Blog</a>
+        <a href={contactPath}>{isEnglish ? 'Contact' : 'Contact'}</a>
+        <a href={languageSwitchUrl}>{languageSwitchLabel}</a>
       </nav>
     </header>
     <main>

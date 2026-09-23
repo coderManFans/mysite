@@ -5,6 +5,8 @@ pubDate: 2026-09-18
 tags: ["AI Agent", "开发测试平台", "云蝶AI产研平台", "研发流程", "Skills"]
 category: "distributed-microservices"
 draft: false
+lang: "zh"
+translationKey: "devtest-ai-agent-rd-practice"
 ---
 
 ### 一、项目整体说明

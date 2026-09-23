@@ -1,36 +1,41 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="CODERMAN" description="Software Developer, AI software development, and technical writing." alternateUrl="/en/">
+<BaseLayout
+  title="CODERMAN"
+  description="Software Developer focused on AI-assisted development, engineering tools, and technical writing."
+  lang="en"
+  alternateUrl="/"
+>
   <section class="hero">
     <p class="eyebrow">Software Developer</p>
     <h1>CODERMAN</h1>
-    <p class="lead">AI 软件开发，Building things with code.</p>
+    <p class="lead">AI-assisted software development, engineering tools, and practical technical writing.</p>
     <div class="actions">
-      <a class="button primary" href="/blog/">阅读博客</a>
-      <a class="button" href="#contact">联系我</a>
+      <a class="button primary" href="/en/blog/">Read Blog</a>
+      <a class="button" href="#contact">Contact Me</a>
     </div>
   </section>
 
   <section class="section-grid" aria-labelledby="focus-title">
     <div>
       <p class="eyebrow">Focus</p>
-      <h2 id="focus-title">技术方向</h2>
+      <h2 id="focus-title">Technical Focus</h2>
     </div>
     <div class="text-block">
-      <p>关注软件工程、AI 辅助开发、工具链和个人知识管理。这里会整理项目经验、技术笔记和实践记录。</p>
+      <p>I write about software engineering, AI-assisted development, tooling, and personal knowledge management through project notes and practical engineering records.</p>
     </div>
   </section>
 
   <section class="section-grid" id="contact" aria-labelledby="contact-title">
     <div>
       <p class="eyebrow">Contact</p>
-      <h2 id="contact-title">保持联系</h2>
+      <h2 id="contact-title">Get in Touch</h2>
     </div>
     <div class="contact-panel">
-      <div class="contact-links" aria-label="联系方式列表">
+      <div class="contact-links" aria-label="Contact links">
         <a href="mailto:2217011466@qq.com">
-          <span>邮箱</span>
+          <span>Email</span>
           <strong>2217011466@qq.com</strong>
         </a>
         <a href="https://github.com/coderManFans" target="_blank" rel="noreferrer">
@@ -43,9 +48,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </a>
       </div>
       <figure class="wechat-card">
-        <img src="/images/wechat-official-account.jpg" alt="微信公众号神帅的技术圈二维码" width="220" height="220" loading="lazy" />
+        <img src="/images/wechat-official-account.jpg" alt="QR code for the WeChat official account" width="220" height="220" loading="lazy" />
         <figcaption>
-          <span>微信公众号</span>
+          <span>WeChat Official Account</span>
           <strong>神帅的技术圈</strong>
         </figcaption>
       </figure>

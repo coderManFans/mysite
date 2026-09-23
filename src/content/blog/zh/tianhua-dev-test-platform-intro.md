@@ -5,6 +5,8 @@ pubDate: 2026-09-19
 tags: ["天画", "开发测试平台", "Vibe Coding", "自动化测试", "AI Skills"]
 category: "vibe-coding-projects"
 draft: false
+lang: "zh"
+translationKey: "tianhua-dev-test-platform-intro"
 ---
 ### 一、项目整体说明
 大家好，这里介绍下我做的第一个Vibe Coding项目，主要使用codex,deeSeek模型来产出代码和修复bug.

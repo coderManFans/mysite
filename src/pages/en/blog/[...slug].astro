@@ -1,11 +1,11 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getBlogPostPath, getBlogPostSlug } from '../../lib/blogI18n';
-import { getBlogCategoryLabel } from '../../lib/blogCategories';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getBlogPostPath, getBlogPostSlug } from '../../../lib/blogI18n';
+import { getBlogCategoryLabel } from '../../../lib/blogCategories';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft && data.lang === 'zh');
+  const posts = await getCollection('blog', ({ data }) => !data.draft && data.lang === 'en');
 
   return posts.map((post) => ({
     params: {
@@ -18,22 +18,22 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const alternatePost = allPosts.find((item) =>
-  item.data.lang === 'en' &&
+  item.data.lang === 'zh' &&
   (item.data.translationKey ?? getBlogPostSlug(item.id)) === (post.data.translationKey ?? getBlogPostSlug(post.id))
 );
-const alternateUrl = alternatePost ? getBlogPostPath(alternatePost.id, alternatePost.data.lang) : '/en/blog/';
+const alternateUrl = alternatePost ? getBlogPostPath(alternatePost.id, alternatePost.data.lang) : '/blog/';
 const { Content } = await render(post);
 const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date);
+  new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(date);
 ---
-<BaseLayout title={post.data.title} description={post.data.description} alternateUrl={alternateUrl}>
+<BaseLayout title={post.data.title} description={post.data.description} lang="en" alternateUrl={alternateUrl}>
   <article class="article">
     <header class="article-header">
-      <a class="back-link" href="/blog/">← 返回博客</a>
+      <a class="back-link" href="/en/blog/">← Back to Blog</a>
       <p class="eyebrow">{formatDate(post.data.pubDate)}</p>
       <h1>{post.data.title}</h1>
       {post.data.description && <p>{post.data.description}</p>}
-      <div class="tag-list" aria-label="文章分类和标签">
+      <div class="tag-list" aria-label="Post category and tags">
         <span class="category-label">{getBlogCategoryLabel(post.data.category)}</span>
         {post.data.tags.map((tag) => <span>{tag}</span>)}
       </div>

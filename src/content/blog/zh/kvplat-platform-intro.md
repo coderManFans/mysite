@@ -5,6 +5,8 @@ pubDate: 2026-09-18
 tags: ["KVPlat", "低代码", "Spring Boot", "Vue", "多租户"]
 category: "ddd-domain-modeling"
 draft: false
+lang: "zh"
+translationKey: "kvplat-platform-intro"
 ---
 
 ### 一、项目整体说明

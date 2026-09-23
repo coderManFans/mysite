@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import {
   blogCategories,
   getBlogCategoryLabel
-} from '../../../lib/blogCategories';
-import { defaultBlogLang, getBlogPostPath } from '../../../lib/blogI18n';
+} from '../../../../lib/blogCategories';
+import { getBlogPostPath } from '../../../../lib/blogI18n';
 
 export function getStaticPaths() {
   return blogCategories.map((category) => ({
@@ -15,33 +15,33 @@ export function getStaticPaths() {
 }
 
 const { category } = Astro.props;
+const lang = 'en';
 const posts = (await getCollection('blog', ({ data }) =>
-  !data.draft && data.lang === defaultBlogLang && data.category === category.slug
+  !data.draft && data.lang === lang && data.category === category.slug
 )).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date);
+  new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(date);
 
-
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === defaultBlogLang));
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === lang));
 const categoryCounts = new Map<string, number>();
 for (const post of allPosts) {
   categoryCounts.set(post.data.category, (categoryCounts.get(post.data.category) ?? 0) + 1);
 }
 ---
-<BaseLayout title={`${category.label} | Blog`} description={category.description} alternateUrl={`/en/blog/category/${category.slug}/`}>
+<BaseLayout title={`${category.label} | Blog`} description={category.description} lang="en" alternateUrl={`/blog/category/${category.slug}/`}>
   <section class="page-heading">
     <p class="eyebrow">Blog / Category</p>
     <h1>{category.label}</h1>
     <p>{category.description}</p>
   </section>
 
-  <section class="category-filter" aria-label="博客分类筛选">
-    <a class="category-chip" href="/blog/">全部 <span>{allPosts.length}</span></a>
+  <section class="category-filter" aria-label="Blog category filter">
+    <a class="category-chip" href="/en/blog/">All <span>{allPosts.length}</span></a>
     {blogCategories.map((item) => (
       <a
         class:list={["category-chip", { active: item.slug === category.slug }]}
-        href={`/blog/category/${item.slug}/`}
+        href={`/en/blog/category/${item.slug}/`}
         title={item.description}
       >
         {item.label}
@@ -50,7 +50,11 @@ for (const post of allPosts) {
     ))}
   </section>
 
-  <section class="post-list" aria-label={`${category.label}文章列表`}>
+  {posts.length === 0 && (
+    <p class="empty-state">No English posts in this category yet.</p>
+  )}
+
+  <section class="post-list" aria-label={`${category.label} post list`}>
     {posts.map((post) => (
       <article class="post-card">
         <div class="post-meta">

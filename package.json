@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "import:yuque": "node scripts/import-yuque-md.mjs"
+    "import:yuque": "node scripts/import-yuque-md.mjs",
+    "translate:blog": "node scripts/translate-blog-posts.mjs"
   },
 
   "packageManager": "npm@11.6.2",

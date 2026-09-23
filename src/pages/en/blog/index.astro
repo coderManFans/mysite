@@ -1,13 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { blogCategories, getBlogCategoryLabel } from '../../lib/blogCategories';
-import { defaultBlogLang, getBlogPostPath } from '../../lib/blogI18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { blogCategories, getBlogCategoryLabel } from '../../../lib/blogCategories';
+import { getBlogPostPath } from '../../../lib/blogI18n';
 
+const lang = 'en';
 const activeCategory = 'all';
 
 const allPosts = (await getCollection('blog'))
-  .filter((post) => !post.data.draft && post.data.lang === defaultBlogLang)
+  .filter((post) => !post.data.draft && post.data.lang === lang)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const categoryCounts = new Map<string, number>();
@@ -20,25 +21,24 @@ const posts = activeCategory === 'all'
   : allPosts.filter((post) => post.data.category === activeCategory);
 
 const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date);
-
+  new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(date);
 ---
-<BaseLayout title="Blog" description="CODERMAN 的技术博客和开发笔记。" alternateUrl="/en/blog/">
+<BaseLayout title="Blog" description="CODERMAN's technical blog and development notes." lang="en" alternateUrl="/blog/">
   <section class="page-heading">
     <p class="eyebrow">Blog</p>
-    <h1>技术博客</h1>
-    <p>记录软件开发、AI 工具链和个人项目实践。</p>
+    <h1>Technical Blog</h1>
+    <p>Notes on software development, AI tooling, and personal project practices.</p>
   </section>
 
-  <section class="category-filter" aria-label="博客分类筛选">
-    <a class:list={["category-chip", { active: activeCategory === 'all' }]} href="/blog/">
-      全部
+  <section class="category-filter" aria-label="Blog category filter">
+    <a class:list={["category-chip", { active: activeCategory === 'all' }]} href="/en/blog/">
+      All
       <span>{allPosts.length}</span>
     </a>
     {blogCategories.map((category) => (
       <a
         class:list={["category-chip", { active: activeCategory === category.slug }]}
-        href={`/blog/category/${category.slug}/`}
+        href={`/en/blog/category/${category.slug}/`}
         title={category.description}
       >
         {category.label}
@@ -48,10 +48,10 @@ const formatDate = (date: Date) =>
   </section>
 
   {posts.length === 0 && (
-    <p class="empty-state">当前分类还没有文章，后续会继续补充。</p>
+    <p class="empty-state">No English posts yet. Translated articles will appear here later.</p>
   )}
 
-  <section class="post-list" aria-label="博客文章列表">
+  <section class="post-list" aria-label="Blog post list">
     {posts.map((post) => (
       <article class="post-card">
         <div class="post-meta">

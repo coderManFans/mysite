@@ -1,12 +1,10 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-
-const getPostPath = (id) =>
-  `/blog/${id.replace(/\/index\.(md|mdx)$/, '').replace(/\.(md|mdx)$/, '')}/`;
+import { defaultBlogLang, getBlogPostPath } from '../lib/blogI18n';
 
 export async function GET(context) {
   const posts = (await getCollection('blog'))
-    .filter((post) => !post.data.draft)
+    .filter((post) => !post.data.draft && post.data.lang === defaultBlogLang)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   return rss({
@@ -17,7 +15,7 @@ export async function GET(context) {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate,
-      link: getPostPath(post.id)
+      link: getBlogPostPath(post.id, post.data.lang)
     }))
   });
 }
