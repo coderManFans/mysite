@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/generate-og-images.mjs",
     "build": "astro build",
     "preview": "astro preview",
+    "og:images": "node scripts/generate-og-images.mjs",
     "import:yuque": "node scripts/import-yuque-md.mjs",
     "translate:blog": "node scripts/translate-blog-posts.mjs"
   },
@@ -18,6 +20,7 @@
   "dependencies": {
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.4",
-    "astro": "7.3.3"
+    "astro": "7.3.3",
+    "sharp": "0.35.4"
   }
 }
