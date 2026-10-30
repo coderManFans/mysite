@@ -4,6 +4,11 @@ interface Props {
   description?: string;
   lang?: 'zh' | 'en';
   alternateUrl?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  updatedTime?: string;
+  author?: string;
 }
 
 import { getBlogIndexPath, getHomePath, getHtmlLang } from '../lib/blogI18n';
@@ -12,16 +17,35 @@ const {
   title,
   description = 'CODERMAN personal website and technical blog.',
   lang = 'zh',
-  alternateUrl
+  alternateUrl,
+  ogImage,
+  ogType = 'website',
+  publishedTime,
+  updatedTime,
+  author = 'CODERMAN'
 } = Astro.props;
-const pageTitle = title === 'CODERMAN' ? title : `${title} | CODERMAN`;
+
 const isEnglish = lang === 'en';
+const pageTitle = title === 'CODERMAN' ? title : `${title} | CODERMAN`;
 const homePath = getHomePath(lang);
 const blogPath = getBlogIndexPath(lang);
 const contactPath = `${homePath}#contact`;
-const defaultAlternateUrl = isEnglish ? Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/' : `/en${Astro.url.pathname === '/' ? '' : Astro.url.pathname}`;
+const siteOrigin = Astro.site ? Astro.site.origin : 'https://coderman.me';
+const currentPath = Astro.url.pathname;
+const canonicalUrl = `${siteOrigin}${currentPath}`;
+
+const defaultAlternateUrl = isEnglish
+  ? Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/'
+  : `/en${Astro.url.pathname === '/' ? '' : Astro.url.pathname}`;
 const languageSwitchUrl = alternateUrl ?? defaultAlternateUrl;
 const languageSwitchLabel = isEnglish ? '中文' : 'English';
+
+const alternateHref = `${siteOrigin}${languageSwitchUrl.startsWith('/') ? languageSwitchUrl : `/${languageSwitchUrl}`}`;
+const absoluteOgImage = ogImage
+  ? `${siteOrigin}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`
+  : `${siteOrigin}/images/site-icon.png`;
+const locale = isEnglish ? 'en_US' : 'zh_CN';
+const alternateLocale = isEnglish ? 'zh_CN' : 'en_US';
 ---
 <!doctype html>
 <html lang={getHtmlLang(lang)}>
@@ -29,9 +53,31 @@ const languageSwitchLabel = isEnglish ? '中文' : 'English';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="author" content={author} />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <title>{pageTitle}</title>
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang={isEnglish ? 'en' : 'zh-CN'} href={canonicalUrl} />
+    <link rel="alternate" hreflang={isEnglish ? 'zh-CN' : 'en'} href={alternateHref} />
+    <link rel="alternate" hreflang="x-default" href={isEnglish ? alternateHref : canonicalUrl} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="CODERMAN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:locale:alternate" content={alternateLocale} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {updatedTime && <meta property="article:modified_time" content={updatedTime} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -39,7 +85,7 @@ const languageSwitchLabel = isEnglish ? '中文' : 'English';
       <a class="brand" href={homePath}>CODERMAN</a>
       <nav aria-label={isEnglish ? 'Main navigation' : '主导航'}>
         <a href={blogPath}>Blog</a>
-        <a href={contactPath}>{isEnglish ? 'Contact' : 'Contact'}</a>
+        <a href={contactPath}>Contact</a>
         <a href={languageSwitchUrl}>{languageSwitchLabel}</a>
       </nav>
     </header>

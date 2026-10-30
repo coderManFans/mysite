@@ -26,8 +26,20 @@ const alternateUrl = alternatePost ? getBlogPostPath(alternatePost.id, alternate
 const { Content } = await render(post);
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date);
+const ogImage = `/images/og/zh-${getBlogPostSlug(post.id)}.png`;
+const publishedTime = post.data.pubDate instanceof Date ? post.data.pubDate.toISOString() : undefined;
+const updatedTime =
+  post.data.updatedDate instanceof Date ? post.data.updatedDate.toISOString() : undefined;
 ---
-<BaseLayout title={post.data.title} description={post.data.description} alternateUrl={alternateUrl}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  alternateUrl={alternateUrl}
+  ogType="article"
+  ogImage={ogImage}
+  publishedTime={publishedTime}
+  updatedTime={updatedTime}
+>
   <article class="article">
     <header class="article-header">
       <a class="back-link" href="/blog/">← 返回博客</a>
