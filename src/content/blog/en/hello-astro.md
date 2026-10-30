@@ -4,7 +4,7 @@ description: "The first step in migrating my personal website from plain HTML to
 pubDate: "2024-01-15"
 tags: ["Astro", "Blog"]
 category: "vibe-coding-projects"
-draft: false
+draft: true
 lang: "en"
 translationKey: "hello-astro"
 ---
