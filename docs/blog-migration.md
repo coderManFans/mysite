@@ -80,13 +80,26 @@ After importing, review the generated Markdown file:
 - Confirm code blocks have language identifiers when possible.
 - Run `npm run build`.
 - Open `/blog/<slug>/` locally and check image layout.
+- Confirm the generated Open Graph image at `/images/og/<lang>-<slug>.png` looks right.
+
+## Open Graph Images
+
+`npm run build` regenerates Open Graph share images before the Astro build through the `prebuild` script. To regenerate only the images:
+
+```bash
+npm run og:images
+```
+
+Output goes to `public/images/og/<lang>-<slug>.png` at 1200x630. Each image is rendered from the post title, category, and language, so renaming a title or changing a category requires regenerating.
+
+Do not edit these files by hand. They are produced by `scripts/generate-og-images.mjs`.
 
 ## Commit Pattern
 
 Use a focused commit per imported article:
 
 ```bash
-git add src/content/blog/<lang>/<slug>.md public/images/blog/<slug>
+git add src/content/blog/<lang>/<slug>.md public/images/blog/<slug> public/images/og/<lang>-<slug>.png
 git commit -m "Add <title> blog post"
 git push
 ```
