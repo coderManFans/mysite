@@ -1,0 +1,39 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+  lang?: 'zh' | 'en';
+}
+
+const { headings, lang = 'zh' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const usable = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4);
+const baseDepth = usable.length > 0 ? Math.min(...usable.map((heading) => heading.depth)) : 0;
+const tocItems = usable.map((heading) => ({
+  slug: heading.slug,
+  text: heading.text,
+  level: Math.min(heading.depth - baseDepth + 1, 2)
+}));
+const topLevelCount = tocItems.filter((item) => item.level === 1).length;
+const showToc = topLevelCount >= 2;
+---
+{
+  showToc && (
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title" class="toc-title">{isEnglish ? 'On this page' : '目录'}</h2>
+      <ol class="toc-list">
+        {tocItems.map((item) => (
+          <li class:list={['toc-item', `toc-level-${item.level}`]}>
+            <a href={`#${item.slug}`}>{item.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}

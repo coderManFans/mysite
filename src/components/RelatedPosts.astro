@@ -1,0 +1,41 @@
+---
+import type { RelatedPost } from '../lib/relatedPosts';
+import { getBlogPostPath } from '../lib/blogI18n';
+
+interface Props {
+  posts: RelatedPost[];
+  lang?: 'zh' | 'en';
+}
+
+const { posts, lang = 'zh' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const views = posts.map(({ post, sharedTags }) => ({
+  title: post.data.title,
+  description: post.data.description,
+  href: getBlogPostPath(post.id, post.data.lang),
+  tags: sharedTags.slice(0, 2)
+}));
+---
+{
+  views.length > 0 && (
+    <section class="related" aria-labelledby="related-title">
+      <h2 id="related-title" class="related-title">{isEnglish ? 'Related posts' : '相关文章'}</h2>
+      <ul class="related-list">
+        {views.map((view) => (
+          <li class="related-item">
+            <a href={view.href}>
+              <strong>{view.title}</strong>
+              {view.description && <span class="related-desc">{view.description}</span>}
+              {view.tags.length > 0 && (
+                <span class="related-tags">
+                  {view.tags.map((tag) => <span>{tag}</span>)}
+                </span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

@@ -1,0 +1,52 @@
+---
+interface Props {
+  lang?: 'zh' | 'en';
+}
+
+const { lang = 'zh' } = Astro.props;
+const isEnglish = lang === 'en';
+---
+<div
+  class="reading-progress"
+  role="progressbar"
+  aria-label={isEnglish ? 'Reading progress' : '阅读进度'}
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="0"
+>
+  <span class="reading-progress-bar" data-reading-progress-bar></span>
+</div>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('.reading-progress');
+  const fill = document.querySelector<HTMLElement>('[data-reading-progress-bar]');
+  const article = document.querySelector<HTMLElement>('.prose');
+
+  if (bar && fill && article) {
+    let ticking = false;
+
+    const update = () => {
+      const start = article.offsetTop;
+      const end = start + article.offsetHeight;
+      const viewport = window.innerHeight;
+      const scrollable = end - start - viewport;
+      const scrolled = window.scrollY - start;
+      const ratio = scrollable > 0 ? Math.min(Math.max(scrolled / scrollable, 0), 1) : window.scrollY > start ? 1 : 0;
+
+      fill.style.transform = `scaleX(${ratio})`;
+      bar.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+  }
+</script>
