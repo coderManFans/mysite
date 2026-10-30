@@ -2,6 +2,12 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Giscus from '../../components/Giscus.astro';
+import ReadingProgress from '../../components/ReadingProgress.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
+import SeriesNavigation from '../../components/SeriesNavigation.astro';
+import { getRelatedPosts } from '../../lib/relatedPosts';
+import { getSeriesNavigation } from '../../lib/seriesNavigation';
 import { getBlogPostPath, getBlogPostSlug } from '../../lib/blogI18n';
 import { getBlogCategoryLabel } from '../../lib/blogCategories';
 
@@ -23,13 +29,15 @@ const alternatePost = allPosts.find((item) =>
   (item.data.translationKey ?? getBlogPostSlug(item.id)) === (post.data.translationKey ?? getBlogPostSlug(post.id))
 );
 const alternateUrl = alternatePost ? getBlogPostPath(alternatePost.id, alternatePost.data.lang) : '/en/blog/';
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date);
 const ogImage = `/images/og/zh-${getBlogPostSlug(post.id)}.png`;
 const publishedTime = post.data.pubDate instanceof Date ? post.data.pubDate.toISOString() : undefined;
 const updatedTime =
   post.data.updatedDate instanceof Date ? post.data.updatedDate.toISOString() : undefined;
+const relatedPosts = getRelatedPosts(post, allPosts);
+const seriesNavigation = getSeriesNavigation(post, allPosts);
 ---
 <BaseLayout
   title={post.data.title}
@@ -40,6 +48,7 @@ const updatedTime =
   publishedTime={publishedTime}
   updatedTime={updatedTime}
 >
+  <ReadingProgress lang="zh" />
   <article class="article">
     <header class="article-header">
       <a class="back-link" href="/blog/">← 返回博客</a>
@@ -51,9 +60,12 @@ const updatedTime =
         {post.data.tags.map((tag) => <span>{tag}</span>)}
       </div>
     </header>
+    <TableOfContents headings={headings} lang="zh" />
     <div class="prose">
       <Content />
     </div>
+    <RelatedPosts posts={relatedPosts} lang="zh" />
+    <SeriesNavigation navigation={seriesNavigation} categoryLabel={getBlogCategoryLabel(post.data.category)} lang="zh" />
   </article>
   <div class="article-comments">
     <Giscus lang="zh" />
