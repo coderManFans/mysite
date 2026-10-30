@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Giscus from '../../components/Giscus.astro';
 import { getBlogPostPath, getBlogPostSlug } from '../../lib/blogI18n';
 import { getBlogCategoryLabel } from '../../lib/blogCategories';
 
@@ -42,4 +43,7 @@ const formatDate = (date: Date) =>
       <Content />
     </div>
   </article>
+  <div class="article-comments">
+    <Giscus lang="zh" />
+  </div>
 </BaseLayout>
