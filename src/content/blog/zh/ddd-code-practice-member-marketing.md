@@ -4,7 +4,7 @@ description: "DDD 代码实践系列之会员营销：以羽毛球馆会员系�
 pubDate: 2026-11-17
 tags: ["DDD", "代码实践", "会员营销", "领域建模"]
 category: "ddd-domain-modeling"
-draft: false
+draft: true
 lang: "zh"
 translationKey: "ddd-code-practice-member-marketing"
 ---

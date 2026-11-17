@@ -4,7 +4,7 @@ description: "DDD in practice for membership marketing: an outline of a badminto
 pubDate: "2026-11-17"
 tags: ["DDD", "Code Practice", "Membership Marketing", "Domain Modeling"]
 category: "ddd-domain-modeling"
-draft: false
+draft: true
 lang: "en"
 translationKey: "ddd-code-practice-member-marketing"
 ---
