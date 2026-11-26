@@ -585,6 +585,27 @@ h2 {
   border-radius: 8px;
 }
 
+/* Wide diagrams (class / E-R) stay at their designed size and scroll
+   horizontally inside the article instead of being scaled down to unreadable. */
+.diagram-link {
+  display: block;
+  max-width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.diagram-link img {
+  display: block;
+  max-width: none;
+  height: auto;
+  border-radius: 0;
+}
+
 .prose pre {
   overflow-x: auto;
   padding: 18px;
