@@ -1138,7 +1138,7 @@ Northbound and southbound gateways, local and remote gateways, ports, and adapte
 #### 2. Applications
 There was little public material available when I wrote these notes. Based on my conversations with Zhang Yi, organizations including ICBC and JD Logistics had already applied the pattern.
 
-He also mentioned demo code, but the original notes do not include a repository URL.
+He has also published demo code: <https://github.com/agiledon/diamond>.
 
 #### 3. Advantages and Trade-offs
 I have not implemented a project with Diamond Symmetry Architecture, so these are only preliminary observations.

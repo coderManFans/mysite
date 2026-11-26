@@ -359,6 +359,7 @@ h2 {
 }
 
 .toc {
+  display: block;
   margin-top: 28px;
   padding: 20px 24px;
   border: 1px solid var(--border);
