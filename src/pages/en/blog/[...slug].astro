@@ -57,7 +57,7 @@ const seriesNavigation = getSeriesNavigation(post, allPosts);
       <h1>{post.data.title}</h1>
       {post.data.description && <p>{post.data.description}</p>}
       <div class="tag-list" aria-label="Post category and tags">
-        <span class="category-label">{getBlogCategoryLabel(post.data.category)}</span>
+        <span class="category-label">{getBlogCategoryLabel(post.data.category, 'en')}</span>
         {post.data.tags.map((tag) => <span>{tag}</span>)}
       </div>
     </header>
@@ -66,7 +66,7 @@ const seriesNavigation = getSeriesNavigation(post, allPosts);
       <Content />
     </div>
     <RelatedPosts posts={relatedPosts} lang="en" />
-    <SeriesNavigation navigation={seriesNavigation} categoryLabel={getBlogCategoryLabel(post.data.category)} lang="en" />
+    <SeriesNavigation navigation={seriesNavigation} categoryLabel={getBlogCategoryLabel(post.data.category, 'en')} lang="en" />
   </article>
   <div class="article-comments">
     <Giscus lang="en" />

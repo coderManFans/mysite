@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import {
   blogCategories,
+  getBlogCategoryDescription,
   getBlogCategoryLabel
 } from '../../../../lib/blogCategories';
 import { getBlogPostPath } from '../../../../lib/blogI18n';
@@ -29,11 +30,11 @@ for (const post of allPosts) {
   categoryCounts.set(post.data.category, (categoryCounts.get(post.data.category) ?? 0) + 1);
 }
 ---
-<BaseLayout title={`${category.label} | Blog`} description={category.description} lang="en" alternateUrl={`/blog/category/${category.slug}/`}>
+<BaseLayout title={`${getBlogCategoryLabel(category.slug, 'en')} | Blog`} description={getBlogCategoryDescription(category.slug, 'en')} lang="en" alternateUrl={`/blog/category/${category.slug}/`}>
   <section class="page-heading">
     <p class="eyebrow">Blog / Category</p>
-    <h1>{category.label}</h1>
-    <p>{category.description}</p>
+    <h1>{getBlogCategoryLabel(category.slug, 'en')}</h1>
+    <p>{getBlogCategoryDescription(category.slug, 'en')}</p>
   </section>
 
   <section class="category-filter" aria-label="Blog category filter">
@@ -42,9 +43,9 @@ for (const post of allPosts) {
       <a
         class:list={["category-chip", { active: item.slug === category.slug }]}
         href={`/en/blog/category/${item.slug}/`}
-        title={item.description}
+        title={getBlogCategoryDescription(item.slug, 'en')}
       >
-        {item.label}
+        {getBlogCategoryLabel(item.slug, 'en')}
         <span>{categoryCounts.get(item.slug) ?? 0}</span>
       </a>
     ))}
@@ -54,12 +55,12 @@ for (const post of allPosts) {
     <p class="empty-state">No English posts in this category yet.</p>
   )}
 
-  <section class="post-list" aria-label={`${category.label} post list`}>
+  <section class="post-list" aria-label={`${getBlogCategoryLabel(category.slug, 'en')} post list`}>
     {posts.map((post) => (
       <article class="post-card">
         <div class="post-meta">
           <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-          <span>{getBlogCategoryLabel(post.data.category)}</span>
+          <span>{getBlogCategoryLabel(post.data.category, 'en')}</span>
           {post.data.tags.length > 0 && <span>{post.data.tags.join(' / ')}</span>}
         </div>
         <h2><a href={getBlogPostPath(post.id, post.data.lang)}>{post.data.title}</a></h2>

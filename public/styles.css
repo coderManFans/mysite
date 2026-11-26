@@ -375,6 +375,35 @@ h2 {
   text-transform: uppercase;
 }
 
+.toc-collapsible .toc-title {
+  margin: 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.toc-collapsible .toc-title::-webkit-details-marker {
+  display: none;
+}
+
+.toc-collapsible .toc-title::after {
+  content: '▾';
+  margin-left: 8px;
+}
+
+.toc-collapsible[open] .toc-title {
+  margin-bottom: 12px;
+}
+
+.toc-collapsible[open] .toc-title::after {
+  content: '▴';
+}
+
+.toc-collapsible .toc-list {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
 .toc-list {
   margin: 0;
   padding: 0;
@@ -535,6 +564,18 @@ h2 {
 .prose p,
 .prose li {
   color: #30363d;
+  overflow-wrap: anywhere;
+}
+
+.prose a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.prose :where(table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .prose img {

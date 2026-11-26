@@ -139,7 +139,13 @@ function stripFrontmatter(value) {
 }
 
 function stripHtmlComments(value) {
-  return value.replace(/<!--([\s\S]*?)-->\n?/g, '');
+  // Yuque wraps PlantUML source in an HTML comment. The diagrams themselves
+  // contain `-->` arrows, so remove these blocks before the generic comment pass.
+  const withoutTextDiagrams = value.replace(
+    /<!--[^\n]*@startuml[\s\S]*?@enduml\s*-->\n?/g,
+    ''
+  );
+  return withoutTextDiagrams.replace(/<!--([\s\S]*?)-->\n?/g, '');
 }
 
 function convertObsidianImages(value) {

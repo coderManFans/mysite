@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { blogCategories, getBlogCategoryLabel } from '../../../lib/blogCategories';
+import { blogCategories, getBlogCategoryDescription, getBlogCategoryLabel } from '../../../lib/blogCategories';
 import { getBlogPostPath } from '../../../lib/blogI18n';
 
 const lang = 'en';
@@ -39,9 +39,9 @@ const formatDate = (date: Date) =>
       <a
         class:list={["category-chip", { active: activeCategory === category.slug }]}
         href={`/en/blog/category/${category.slug}/`}
-        title={category.description}
+        title={getBlogCategoryDescription(category.slug, 'en')}
       >
-        {category.label}
+        {getBlogCategoryLabel(category.slug, 'en')}
         <span>{categoryCounts.get(category.slug) ?? 0}</span>
       </a>
     ))}
@@ -56,7 +56,7 @@ const formatDate = (date: Date) =>
       <article class="post-card">
         <div class="post-meta">
           <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-          <span>{getBlogCategoryLabel(post.data.category)}</span>
+          <span>{getBlogCategoryLabel(post.data.category, 'en')}</span>
           {post.data.tags.length > 0 && <span>{post.data.tags.join(' / ')}</span>}
         </div>
         <h2><a href={getBlogPostPath(post.id, post.data.lang)}>{post.data.title}</a></h2>

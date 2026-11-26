@@ -22,11 +22,21 @@ const tocItems = usable.map((heading) => ({
 }));
 const topLevelCount = tocItems.filter((item) => item.level === 1).length;
 const showToc = topLevelCount >= 2;
+// Long collections collapse by default so the table of contents does not push the article down.
+const collapsible = tocItems.length > 40;
+const Wrapper = collapsible ? 'details' : 'nav';
+const summaryLabel = isEnglish
+  ? `On this page (${topLevelCount} parts, ${tocItems.length} entries)`
+  : `目录（${topLevelCount} 个部分，共 ${tocItems.length} 条）`;
 ---
 {
   showToc && (
-    <nav class="toc" aria-labelledby="toc-title">
-      <h2 id="toc-title" class="toc-title">{isEnglish ? 'On this page' : '目录'}</h2>
+    <Wrapper class:list={['toc', { 'toc-collapsible': collapsible }]} aria-labelledby="toc-title">
+      {collapsible ? (
+        <summary id="toc-title" class="toc-title">{summaryLabel}</summary>
+      ) : (
+        <h2 id="toc-title" class="toc-title">{isEnglish ? 'On this page' : '目录'}</h2>
+      )}
       <ol class="toc-list">
         {tocItems.map((item) => (
           <li class:list={['toc-item', `toc-level-${item.level}`]}>
@@ -34,6 +44,6 @@ const showToc = topLevelCount >= 2;
           </li>
         ))}
       </ol>
-    </nav>
+    </Wrapper>
   )
 }
